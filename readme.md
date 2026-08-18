@@ -1,61 +1,74 @@
-# URL Shortener
+# URLKit
 
-A simple URL Shortener built using Node.js, Express, HTML, CSS and JavaScript.
+Production-grade URL shortener built with Node.js, Express, and MongoDB Atlas.
 
-## Features
-
-- Shorten the  long URLs
-- Redirect using the newly generated short URL
-- URL Validation
-- Copy to Clipboard
-- Click Counter (Backend)
-
-## Installation
-
-Install dependencies
+## Quick Start
 
 ```bash
 npm install
+cp .env.example .env   # add your MongoDB Atlas URI
+npm run dev
 ```
 
-Run the project
+Open `http://localhost:3000`.
 
-```bash
-npm start
-```
+## Scripts
 
-Open
-
-```
-http://localhost:3000
-```
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start with nodemon (auto-reload) |
+| `npm start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run check` | Lint + validate |
 
 ## API
 
-### POST /api/shorten
+### `POST /api/shorten`
+
+```json
+{ "url": "https://example.com" }
+```
+
+Response:
 
 ```json
 {
-  "url":"https://example.com"
+  "shortUrl": "http://localhost:3000/Ab12Cd",
+  "shortCode": "Ab12Cd",
+  "originalUrl": "https://example.com"
 }
 ```
 
-Response
+### `GET /api/stats/:shortCode`
 
-```json
-{
-  "shortUrl":"http://localhost:3000/Ab12Cd"
-}
+Returns click count and metadata for a short URL.
+
+### `GET /:shortCode`
+
+302 redirect to the original URL.
+
+### `GET /health`
+
+Returns `{ "status": "ok" }`.
+
+## Project Structure
+
+```
+src/
+  config/         - App config, DB connection
+  middleware/      - Error handling, validation, rate limiting
+  models/          - Mongoose schemas
+  routes/          - Express route handlers
+  utils/           - Logger, helpers
+  app.js           - Express app setup
+  server.js        - Entry point, graceful shutdown
+public/            - Static frontend assets
 ```
 
-### GET /:shortCode
+## Environment Variables
 
-Redirects to the original URL.
-
-## Tech Stack
-
-- HTML
-- CSS
-- JavaScript
-- Node.js
-- Express.js
+| Variable | Required | Default |
+|----------|----------|---------|
+| `MONGODB_URI` | Yes | - |
+| `PORT` | No | 3000 |
+| `NODE_ENV` | No | development |
