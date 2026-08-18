@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URLKit — URL Shortener</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>URLKit</h1>
+      <p class="subtitle">Shorten URLs instantly</p>
+      <form id="shortenForm">
+        <input
+          type="url"
+          id="urlInput"
+          placeholder="https://example.com/very/long/url"
+          required
+          aria-label="URL to shorten"
+          autocomplete="url"
+        />
+        <button type="submit" id="submitBtn">Shorten</button>
+      </form>
+      <div id="result"></div>
+    </div>
+    <div id="toast"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
