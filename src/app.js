@@ -2,13 +2,33 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const path = require("path");
+const mongoose = require("mongoose");
 const rateLimiter = require("./middleware/rateLimiter");
 const errorHandler = require("./middleware/errorHandler");
 const urlRoutes = require("./routes/url");
 const Url = require("./models/Url");
 const logger = require("./utils/logger");
+const config = require("./config");
 
 const app = express();
+
+let dbConnected = false;
+
+app.use(async (_req, _res, next) => {
+  if (dbConnected) return next();
+  try {
+    await mongoose.connect(config.mongodbUri, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    dbConnected = true;
+    logger.info("MongoDB Atlas connected successfully");
+    next();
+  } catch (err) {
+    logger.error("MongoDB connection error:", err.message);
+    next(err);
+  }
+});
 
 app.use(helmet({
   contentSecurityPolicy: false,
