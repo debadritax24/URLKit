@@ -15,7 +15,9 @@ const app = express();
 let dbConnected = false;
 
 app.use(async (_req, _res, next) => {
-  if (dbConnected) return next();
+  if (dbConnected) {
+    return next();
+  }
   try {
     await mongoose.connect(config.mongodbUri, {
       serverSelectionTimeoutMS: 5000,

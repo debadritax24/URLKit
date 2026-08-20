@@ -10,6 +10,9 @@ const config = {
     length: 6,
     charset:
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+    minLength: 3,
+    maxLength: 30,
+    pattern: /^[A-Za-z0-9_-]+$/,
   },
 };
 

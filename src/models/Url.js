@@ -8,7 +8,12 @@ const urlSchema = new mongoose.Schema(
       unique: true,
       index: true,
       trim: true,
-      length: [6, "Short code must be 6 characters"],
+      minlength: [3, "Short code must be at least 3 characters"],
+      maxlength: [30, "Short code must be at most 30 characters"],
+      match: [
+        /^[A-Za-z0-9_-]+$/,
+        "Short code can only contain letters, numbers, hyphens and underscores",
+      ],
     },
     originalUrl: {
       type: String,
